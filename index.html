@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
+  <title>Favisnatch - Get any website's icon instantly</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 600px;
+      max-width: calc(95% - 30px);
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .title {
+      text-align: center;
+      color: #f4f4f4;
+      font-weight: bolder;
+      font-size: 4em;
+    }
+
+    .favicon-result {
+      text-align: center;
+      height: 250px;
+      max-width: 100%;
+      margin-bottom: 3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .favicon-result img {
+      max-height: 250px;
+      max-width: 100%;
+    }
+
+    form {
+      padding: 1.75em 2em;
+      background: #111;
+      border-radius: 5px;
+    }
+
+    .input-control {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-control label {
+      font-weight: bold;
+      font-size: 0.75em;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .input-control input {
+      padding: 0.75em 0.75em;
+      border-radius: 3px;
+      border: transparent;
+      margin-right: 0.5em;
+      flex-grow: 1;
+    }
+
+    .input-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.75em;
+      border: none;
+      border-radius: 3px;
+      height: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      flex-basis: 70px;
+    }
+
+    button:disabled {
+      background: grey;
+    }
+
+    .btn.btn-success {
+      background: rgb(50, 100, 0);
+      color: white;
+    }
+
+    @media screen and (max-width: 600px) {
+      .input-control input, .btn {
+        font-size: 1.1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Favisnatch</h1>
+    <div class="favicon-result">
+      <img id="preview" onerror="handleImageError()" src="https://fdn.superdense.com/favicon?domain=superdense.com" alt="Favicon Result">
+    </div>
+    <div class="favicon-search">
+      <form>
+        <section class="input-control">
+          <label for="url">Enter any website url</label>
+          <div class="input-actions">
+            <input placeholder="superdense.com" type="text" name="url" id="url">
+            <button onclick="fetchFavicon()" class="btn btn-success">Fetch</button>
+          </div>
+        </section>
+      </form>
+    </div>
+  </div>
+
+
+  <script>
+    const baseUrl = 'https://fdn.superdense.com/favicon?domain='
+    const defaultSite = 'superdense.com'
+
+    const previewImage = document.querySelector('#preview')
+    const domainInput = document.querySelector('#url')
+    const button = document.querySelector("button")
+    const form = document.querySelector('form')
+    let domainInputValue = domainInput.value
+
+    form.onsubmit = (e) => e.preventDefault()
+
+    domainInput.addEventListener('input', evt => {
+      domainInputValue = baseUrl + evt.target.value
+    })
+
+
+    async function fetchFavicon() {
+      button.disabled = true
+
+      if (!domainInputValue) {
+        domainInputValue = defaultSite
+      }
+      previewImage.src = domainInputValue.toLowerCase()
+    }
+
+    previewImage.onerror = function(e) {
+      domainInputValue = ''
+      domainInput.value = ''
+      button.setAttribute('disabled', 'false')
+      e.target.src = `https://fdn.superdense.com/favicon?domain=superdense.com`
+      alert('Could not find that site\'s icon.')
+    }
+
+    previewImage.onload = (e) => {
+      button.disabled = false
+      domainInputValue = ''
+      domainInput.value = ''
+      domainInput.blur()
+    }
+
+  </script>
+</body>
+</html>
