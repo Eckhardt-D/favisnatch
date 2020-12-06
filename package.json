@@ -1,0 +1,16 @@
+{
+  "name": "favisnatch",
+  "version": "1.0.0",
+  "description": "A world class Favicon fetching tool.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt generate"
+  },
+  "repository": "https://github.com/Eckhardt-D/favisnatch.git",
+  "author": "Eckhardt Dreyer <support@kaizenmedia.co.za>",
+  "license": "MIT",
+  "dependencies": {
+    "nuxt": "^2.14.9"
+  }
+}
